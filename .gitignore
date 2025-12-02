@@ -1,0 +1,3 @@
+input
+*.py[codz]
+__pycache__/

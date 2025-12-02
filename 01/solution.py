@@ -1,29 +1,27 @@
 import sys
 
 with open(sys.argv[1]) as file:
-    instructions = file.read().splitlines()
+    lines = file.read().splitlines()
+
+rotations = [
+    (+1 if first == 'R' else -1) * int(''.join(rest))
+    for first, *rest in lines
+]
 
 at = 50
 p1 = 0
-for instruction in instructions:
-    before = at
-    sign = +1 if instruction[0] == 'R' else -1
-    dist = int(instruction[1:])
-    at += sign * dist
-    at %= 100
-    p1 += at == 0
-print(p1)
-
-at = 50
 p2 = 0
-for instruction in instructions:
+
+for rotation in rotations:
     before = at
-    sign = +1 if instruction[0] == 'R' else -1
-    dist = int(instruction[1:])
-    div, at = divmod(at + sign*dist, 100)
-    if sign > 0:
+    div, mod = divmod(at + rotation, 100)
+    at = mod
+    if rotation > 0:
+        p1 += (at == 0)
         p2 += div
     else:
+        p1 += (at == 0)
         p2 += abs(div) + (at == 0) - (before == 0)
-print(p2)
 
+print(p1)
+print(p2)

@@ -1,7 +1,6 @@
 import sys
 
-with open(sys.argv[1]) as file:
-    banks = file.read().splitlines()
+banks = sys.stdin.read().splitlines()
 
 def max_joltage_p1(bank):
     first_digit = max(bank[:-1])

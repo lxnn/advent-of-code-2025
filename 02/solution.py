@@ -1,10 +1,9 @@
 import sys, re
 
-with open(sys.argv[1]) as file:
-    ranges = [
-        tuple(map(int, part.strip().split('-')))
-        for part in file.read().split(',')
-    ]
+ranges = [
+    tuple(map(int, part.strip().split('-')))
+    for part in sys.stdin.read().split(',')
+]
 
 def is_invalid_p1(number):
     digits = str(number)

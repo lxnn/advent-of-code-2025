@@ -1,12 +1,11 @@
 import sys
 
-with open(sys.argv[1]) as file:
-    paper = {
-        complex(r, c)
-        for r, line in enumerate(file.read().splitlines())
-        for c, char in enumerate(line)
-        if char == '@'
-    }
+paper = {
+    complex(r, c)
+    for r, line in enumerate(sys.stdin.read().splitlines())
+    for c, char in enumerate(line)
+    if char == '@'
+}
 
 def neighbours(pos):
     return {

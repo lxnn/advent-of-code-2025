@@ -1,7 +1,6 @@
 import sys
 
-with open(sys.argv[1]) as file:
-    lines = file.read().splitlines()
+lines = sys.stdin.read().splitlines()
 
 rotations = [
     (+1 if first == 'R' else -1) * int(''.join(rest))

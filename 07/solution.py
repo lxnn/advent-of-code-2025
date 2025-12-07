@@ -1,8 +1,7 @@
 import sys
 from collections import Counter
 
-with open(sys.argv[1]) as file:
-    lines = file.read().splitlines()
+lines = sys.stdin.read().splitlines()
 
 grid = {
     (r, c): char

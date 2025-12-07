@@ -1,12 +1,11 @@
 import sys
 
-with open(sys.argv[1]) as file:
-    first_para, second_para = file.read().split('\n\n')
-    ranges = []
-    for line in first_para.splitlines():
-        start, end = map(int, line.split('-'))
-        ranges.append((start, end+1))
-    ingredients = list(map(int, second_para.split()))
+first_para, second_para = sys.stdin.read().split('\n\n')
+ranges = []
+for line in first_para.splitlines():
+    start, end = map(int, line.split('-'))
+    ranges.append((start, end+1))
+ingredients = list(map(int, second_para.split()))
 
 def is_fresh(ingredient):
     return any(start <= ingredient < stop for (start, stop) in ranges)

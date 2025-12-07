@@ -1,7 +1,6 @@
 import sys, operator, functools, itertools
 
-with open(sys.argv[1]) as file:
-    lines = file.read().splitlines()
+lines = sys.stdin.read().splitlines()
 
 OPS = {'+': operator.add, '*': operator.mul}
 

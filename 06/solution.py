@@ -1,31 +1,29 @@
-import sys, operator, functools, itertools
-
-lines = sys.stdin.read().splitlines()
+import sys, operator, functools
 
 OPS = {'+': operator.add, '*': operator.mul}
 
-results_p1 = [
-    functools.reduce(OPS[opname], map(int, numbers))
-    for *numbers, opname in zip(*(line.split() for line in lines))
-]
+*lines, last_line = sys.stdin.read().splitlines()
 
-p1 = sum(results_p1)
+ops = [OPS[opname] for opname in last_line.split()]
+
+number_groups_p1 = [
+    [int(word) for word in group]
+    for group in zip(*map(str.split, lines))
+]
+p1 = sum(
+    functools.reduce(op, group)
+    for op, group in zip(ops, number_groups_p1)
+)
 print(p1)
 
-problems = [
-    (
-        OPS[first[-1]],
-        [int(first[:-1]), *map(int, rest)]
-    )
-    for is_separator, (first, *rest) in itertools.groupby(
-        (''.join(column) for column in zip(*lines)),
-        lambda column: column.strip() == '',
-    )
-    if not is_separator
+reformatted = '\n'.join(''.join(col).strip() for col in zip(*lines))
+paras = reformatted.split('\n\n')
+number_groups_p2 = [
+    [int(word) for word in para.split()]
+    for para in paras
 ]
-results_p2 = [
-    functools.reduce(op, numbers)
-    for op, numbers in problems
-]
-p2 = sum(results_p2)
+p2 = sum(
+    functools.reduce(op, group)
+    for op, group in zip(ops, number_groups_p2)
+)
 print(p2)

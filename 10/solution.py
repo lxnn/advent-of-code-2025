@@ -12,7 +12,7 @@ def make_button(length, schematic):
 
 def powerset(iterable):
     pool = list(iterable)
-    for i in range(2 << len(pool)):
+    for i in range(1 << len(pool)):
         yield tuple(pool[j] for j in range(len(pool)) if (1 << j) & i)
 
 def toggle_all(lights, buttons):

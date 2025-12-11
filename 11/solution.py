@@ -3,37 +3,31 @@ from collections import Counter
 
 graph = {
     lhs.strip(): set(rhs.split())
-    for lhs, rhs in (
-        line.split(':')
-        for line in sys.stdin.readlines()
-    )
+    for lhs, rhs in (line.split(":") for line in sys.stdin.readlines())
 }
 
-path_count = Counter()
-path_count['you'] = 1
-p1 = 0
-while path_count:
-    p1 += path_count['out']
-    new_path_count = Counter()
-    for node, count in path_count.items():
-        for successor in graph.get(node, set()):
-            new_path_count[successor] += count
-    path_count = new_path_count
+def neighbours(node):
+    return graph.get(node, set())
+
+def count_paths(start, goal, successors):
+    frontier = Counter([start])
+    total = 0
+    while frontier:
+        total += frontier[goal]
+        new_frontier = Counter()
+        for state, count in frontier.items():
+            for successor in successors(state):
+                new_frontier[successor] += count
+        frontier = new_frontier
+    return total
+
+p1 = count_paths("you", "out", neighbours)
 print(p1)
 
-state_count = Counter()
-state_count['svr', False, False] = 1
-p2 = 0
-while state_count:
-    p2 += state_count['out', True, True]
-    new_state_count = Counter()
-    for (node, dac, fft), count in state_count.items():
-        for successor in graph.get(node, set()):
-            new_state = (
-                successor,
-                dac or successor == 'dac',
-                fft or successor == 'fft',
-            )
-            new_state_count[new_state] += count
-    state_count = new_state_count
+def successors_p2(state):
+    node, dac, fft = state
+    for neighbour in neighbours(node):
+        yield (neighbour, dac or neighbour == "dac", fft or neighbour == "fft")
+
+p2 = count_paths(("svr", False, False), ("out", True, True), successors_p2)
 print(p2)

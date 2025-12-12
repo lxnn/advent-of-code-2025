@@ -3,15 +3,19 @@ import sys, re
 def ints(s):
     return list(map(int, re.findall(r'[0-9]+', s)))
 
-*raw_shapes, raw_problems = sys.stdin.read().split('\n\n')
+*shapes, problems = sys.stdin.read().split('\n\n')
 
-shape_sizes = [shape.count('#') for shape in raw_shapes]
-spare_cells = [
-    width * height - sum(count * size for count, size in zip(counts, shape_sizes))
-    for width, height, *counts in map(ints, raw_problems.splitlines())
-]
+total_solvable = 0
+for problem in problems.splitlines():
+    width, height, *quantities = ints(problem)
+    total_filled = sum(
+        shape.count('#') * quantity
+        for shape, quantity in zip(shapes, quantities)
+    )
+    definitely_unsolvable = width * height < total_filled
+    definitely_solvable = (width - width%3) * (height - height%3) >= sum(quantities) * 9
+    assert definitely_solvable or definitely_unsolvable
+    if definitely_solvable:
+        total_solvable += 1
 
-for spare in spare_cells:
-    assert spare < 0 or spare > 100
-
-print(sum(spare >= 0 for spare in spare_cells))
+print(total_solvable)

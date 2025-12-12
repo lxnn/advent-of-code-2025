@@ -26,7 +26,7 @@ for problem in problems.splitlines():
     cols = height // max_shape_height
     definitely_solvable = rows * cols >= sum(quantities)
 
-    assert definitely_solvable or definitely_unsolvable
+    assert definitely_solvable ^ definitely_unsolvable
     if definitely_solvable:
         total_solvable += 1
 
